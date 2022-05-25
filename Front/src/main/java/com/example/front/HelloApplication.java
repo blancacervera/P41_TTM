@@ -8,6 +8,8 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.CycleMethod;
@@ -22,6 +24,7 @@ import javafx.stage.Stage;
 
 import javax.sound.sampled.*;
 import java.applet.AudioClip;
+import java.io.File;
 import java.io.IOException;
 import java.util.LinkedList;
 
@@ -105,16 +108,10 @@ public class HelloApplication extends Application {
         Text title = new Text("Music Tune Education");
         title.setFont(Font.font("Arial", FontWeight.BOLD, 24));
         title.setTextAlignment(TextAlignment.CENTER);
-        HBox hbox = new HBox();
-        hbox.setMargin(title, new Insets(0, 0, 0, 350));
-        hbox.getChildren().add(title);
+        HBox hbox = addHBox();
 
-        //Imagen
-        /* private Image img = new Image("C:\\Users\\leon\\Pictures\\lobo.jpg", false);
-        etiquetaImagen = new Label();
-        etiquetaImagen.setGraphic(new ImageView(img));
-        etiquetaImagen.setTooltip(new Tooltip("Una etiqueta con una imagen..."));
-        */
+        //Imagen (cambiar esta linea)
+        ImageView imageView = new ImageView("C:\\Github projects\\P41_TTM\\imagenes\\fotos_intervals\\mezzo_soprano\\5-1.png");
 
         Button buttonsing = new Button("SING");
         EventHandler<ActionEvent> event1 = new EventHandler<ActionEvent>() {
@@ -145,11 +142,14 @@ public class HelloApplication extends Application {
 
         buttonsing.setPrefSize(200, 40);
         GridPane gridPane = new GridPane();
-        gridPane.setMargin(buttonsing, new Insets(180, 0, 0, 150));
-        gridPane.add(buttonsing, 3, 1);
+        gridPane.setMargin(imageView, new Insets(150, 0, 0, 150));
+        gridPane.add(imageView, 1, 1);
+        gridPane.setMargin(buttonsing, new Insets(80, 0, 0, 100));
+        gridPane.add(buttonsing, 2, 1);
 
 
         BorderPane border = new BorderPane();
+        border.setTop(hbox);
         border.setCenter(gridPane);
         Scene scene = new Scene(border, 960, 540);
         stage.setScene(scene);
@@ -277,7 +277,7 @@ public class HelloApplication extends Application {
         levelselect.setValue("Level 1");
         ChoiceBox rangeselect = new ChoiceBox();
         rangeselect.setPrefSize(200, 40);
-        rangeselect.getItems().addAll("Bajo", "Contralto", "Tenor", "Bajo");
+        rangeselect.getItems().addAll("Bajo", "Contralto", "Tenor");
         rangeselect.setValue("Bajo");
         Button buttonstart = new Button("START");
 
