@@ -144,7 +144,7 @@ public class HelloApplication extends Application {
 
         /*class JavaSoundRecorder {
             // record duration, in milliseconds
-            static final long RECORD_TIME = 60000;  // 1 minute
+            static final long RECORD_TIME = 16000;  // 16 seconds
 
             // path of the wav file
             File wavFile = new File("E:/Test/RecordAudio.wav");
