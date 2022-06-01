@@ -124,7 +124,7 @@ public class HelloApplication extends Application {
             }
         };
         buttonsing.setOnAction(event1);
-        Media buzzer = new Media(getClass().getResource("/LAsound.wav").toExternalForm());
+        Media buzzer = new Media(getClass().getResource("/LAmetronome.wav").toExternalForm());
         MediaPlayer mediaPlayer = new MediaPlayer(buzzer);
         buttonsing.setOnAction(event -> {
             if(mediaPlayer.getStatus() != MediaPlayer.Status.PLAYING){
