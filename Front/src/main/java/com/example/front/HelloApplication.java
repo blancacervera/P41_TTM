@@ -15,6 +15,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.CycleMethod;
 import javafx.scene.paint.LinearGradient;
 import javafx.scene.paint.Stop;
+import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
@@ -47,6 +48,7 @@ enum RangeSelector {
 public class HelloApplication extends Application {
     LevelSelector ls;
     RangeSelector rs;
+    private boolean testOk = false;
 
     private void lastscene(Stage stage){
         BorderPane gridborder = new BorderPane();
@@ -257,10 +259,11 @@ public class HelloApplication extends Application {
         stage.show();
     }
 
-    private void secondscene(Stage stage){
+    private void secondscene(Stage stage) throws IOException {
         //Crear aqui segunda escena
         BorderPane border = new BorderPane();
-        Button buttonchange = new Button("TEST");
+        Button testbutton = new Button("TEST");
+        Circle testcircle = new Circle(50, Color.WHITE);
         Mixer.Info[] infos = AudioSystem.getMixerInfo(); //tenemos instancias de los dispositivos de audio instalados en el pc.
         LinkedList<Mixer.Info> infos_2 = new LinkedList<>();
         for(Mixer.Info info: infos) {
@@ -274,6 +277,12 @@ public class HelloApplication extends Application {
         deviceSelection.getItems().addAll(infos_2);
         deviceSelection.setValue(infos_2.getFirst()); //by default the first MIDI device.
         border.setCenter(deviceSelection);
+        //testcircle.setCenterX(674);
+        //testcircle.setCenterY(267);
+        testbutton.setLayoutX(416);
+        testbutton.setLayoutY(300);
+        border.setBottom(testbutton);
+        border.setRight(testcircle);
 
         deviceSelection.setOnAction((event) -> {
             int selectedIndex = deviceSelection.getSelectionModel().getSelectedIndex();
@@ -286,23 +295,26 @@ public class HelloApplication extends Application {
                 TargetDataLine mic = AudioSystem.getTargetDataLine(new
                         AudioFormat(44100, 16, 1, true, true), infos_2.get(selectedIndex));
                 System.out.println("Device works correctly!!!!");
+                testcircle.setFill(Color.rgb(85, 255 , 0));
+                this.testOk = true;
             }catch(Exception e){
+                testcircle.setFill(Color.RED);
+                this.testOk = false;
                 System.out.println(e);
             }
         });
 
-
-
         EventHandler<ActionEvent> event = new EventHandler<ActionEvent>() {
             public void handle(ActionEvent e)
             {
-                thirdscene(stage);
+                if (testOk){
+                    thirdscene(stage);
+                }
             }
         };
 
-        buttonchange.setOnAction(event);
-        buttonchange.setPrefSize(200, 40);
-        border.setTop(buttonchange);
+        testbutton.setOnAction(event);
+        testbutton.setPrefSize(200, 40);
         Scene scene = new Scene(border, 960, 540);
         stage.setScene(scene);
         stage.show();
@@ -385,7 +397,11 @@ public class HelloApplication extends Application {
         EventHandler<ActionEvent> event = new EventHandler<ActionEvent>() {
             public void handle(ActionEvent e)
             {
-                secondscene(stage);
+                try {
+                    secondscene(stage);
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
                 rs = (RangeSelector) rangeselect.getValue();
                 ls = (LevelSelector) levelselect.getValue();
             }
