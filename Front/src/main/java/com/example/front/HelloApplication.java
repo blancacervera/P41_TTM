@@ -149,7 +149,7 @@ public class HelloApplication extends Application {
             if(mediaPlayer.getStatus() != MediaPlayer.Status.PLAYING){
                 mediaPlayer.play();
             }
-            
+
         });
 
 
