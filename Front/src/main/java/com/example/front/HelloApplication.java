@@ -27,8 +27,25 @@ import java.applet.AudioClip;
 import java.io.File;
 import java.io.IOException;
 import java.util.LinkedList;
+import java.util.regex.Pattern;
 
 public class HelloApplication extends Application {
+    enum levelselection {
+        FACIL,
+        NORMAL,
+        DIFICIL
+    }
+
+    enum voiceselection {
+        Bajo,
+        Contralto,
+        Tenor
+    }
+
+    //Pasar esto al server
+    public levelselection ls;
+    public voiceselection vs;
+
     private void lastscene(Stage stage){
         BorderPane gridborder = new BorderPane();
         GridPane gridPane = new GridPane();
@@ -111,7 +128,15 @@ public class HelloApplication extends Application {
         HBox hbox = addHBox();
 
         //Imagen (cambiar esta linea)
-        ImageView imageView = new ImageView("C:\\Github projects\\P41_TTM\\imagenes\\fotos_intervals\\mezzo_soprano\\5-1.png");
+        String nombreFichero = "5-1.png";
+        String rutaAbsoluta = new File(nombreFichero).getAbsolutePath();
+        int intIndex = rutaAbsoluta.indexOf("5-1.png");
+        System.out.println(rutaAbsoluta);
+        String separator = "\\";
+        String[] parts = rutaAbsoluta.split(Pattern.quote(separator));
+        String arrayToString = String.join(" ", parts);
+        System.out.println(arrayToString);
+        ImageView imageView = new ImageView(rutaAbsoluta);
 
         Button buttonsing = new Button("SING");
         EventHandler<ActionEvent> event1 = new EventHandler<ActionEvent>() {
@@ -273,17 +298,19 @@ public class HelloApplication extends Application {
 
         ChoiceBox levelselect = new ChoiceBox();
         levelselect.setPrefSize(200, 40);
-        levelselect.getItems().addAll("Level 1", "Level 2", "Level 3");
-        levelselect.setValue("Level 1");
+        levelselect.getItems().addAll(levelselection.values());
+        levelselect.setValue(levelselection.values()[0]);
         ChoiceBox rangeselect = new ChoiceBox();
         rangeselect.setPrefSize(200, 40);
-        rangeselect.getItems().addAll("Bajo", "Contralto", "Tenor");
-        rangeselect.setValue("Bajo");
+        rangeselect.getItems().addAll(voiceselection.values());
+        rangeselect.setValue(voiceselection.values()[0]);
         Button buttonstart = new Button("START");
 
         EventHandler<ActionEvent> event = new EventHandler<ActionEvent>() {
             public void handle(ActionEvent e)
             {
+                ls = (levelselection)levelselect.getValue();
+                vs = (voiceselection)rangeselect.getValue();
                 secondscene(stage);
             }
         };
