@@ -25,6 +25,7 @@ import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 
 import javax.sound.sampled.*;
+import javax.swing.*;
 
 
 import java.io.IOException;
@@ -129,9 +130,8 @@ public class HelloApplication extends Application {
         buttonsing.setOnAction(event -> {
             if(mediaPlayer.getStatus() != MediaPlayer.Status.PLAYING){
                 mediaPlayer.play();
-
-
             }
+            
         });
 
 
