@@ -21,31 +21,16 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 
 import javax.sound.sampled.*;
-import java.applet.AudioClip;
-import java.io.File;
+
+
 import java.io.IOException;
 import java.util.LinkedList;
-import java.util.regex.Pattern;
 
 public class HelloApplication extends Application {
-    enum levelselection {
-        FACIL,
-        NORMAL,
-        DIFICIL
-    }
-
-    enum voiceselection {
-        Bajo,
-        Contralto,
-        Tenor
-    }
-
-    //Pasar esto al server
-    public levelselection ls;
-    public voiceselection vs;
-
     private void lastscene(Stage stage){
         BorderPane gridborder = new BorderPane();
         GridPane gridPane = new GridPane();
@@ -128,15 +113,8 @@ public class HelloApplication extends Application {
         HBox hbox = addHBox();
 
         //Imagen (cambiar esta linea)
-        String nombreFichero = "5-1.png";
-        String rutaAbsoluta = new File(nombreFichero).getAbsolutePath();
-        int intIndex = rutaAbsoluta.indexOf("5-1.png");
-        System.out.println(rutaAbsoluta);
-        String separator = "\\";
-        String[] parts = rutaAbsoluta.split(Pattern.quote(separator));
-        String arrayToString = String.join(" ", parts);
-        System.out.println(arrayToString);
-        ImageView imageView = new ImageView(rutaAbsoluta);
+        //ImageView imageView = new ImageView("C:\\Github projects\\P41_TTM\\imagenes\\fotos_intervals\\mezzo_soprano\\5-1.png");
+        ImageView imageView = new ImageView();
 
         Button buttonsing = new Button("SING");
         EventHandler<ActionEvent> event1 = new EventHandler<ActionEvent>() {
@@ -146,24 +124,16 @@ public class HelloApplication extends Application {
             }
         };
         buttonsing.setOnAction(event1);
+        Media buzzer = new Media(getClass().getResource("/LAmetronome.wav").toExternalForm());
+        MediaPlayer mediaPlayer = new MediaPlayer(buzzer);
+        buttonsing.setOnAction(event -> {
+            if(mediaPlayer.getStatus() != MediaPlayer.Status.PLAYING){
+                mediaPlayer.play();
 
-        /*AudioClip buzzer = new AudioClip(getClass().getResource("/descargas/LAsound.mp3").toExternalForm()) {
-            @Override
-            public void play() {
-
-            }
-            @Override
-            public void loop() {
 
             }
-            @Override
-            public void stop() {
+        });
 
-            }
-        };
-        buttonsing.setOnAction(event ->{
-            buzzer.play();
-        });*/
 
         buttonsing.setPrefSize(200, 40);
         GridPane gridPane = new GridPane();
@@ -172,6 +142,94 @@ public class HelloApplication extends Application {
         gridPane.setMargin(buttonsing, new Insets(80, 0, 0, 100));
         gridPane.add(buttonsing, 2, 1);
 
+        /*class JavaSoundRecorder {
+            // record duration, in milliseconds
+            static final long RECORD_TIME = 16000;  // 16 seconds
+
+            // path of the wav file
+            File wavFile = new File("E:/Test/RecordAudio.wav");
+
+            // format of audio file
+            AudioFileFormat.Type fileType = AudioFileFormat.Type.WAVE;
+
+            // the line from which audio data is captured
+            TargetDataLine line;
+
+            // Defines an audio format
+            AudioFormat getAudioFormat() {
+                float sampleRate = 16000;
+                int sampleSizeInBits = 8;
+                int channels = 2;
+                boolean signed = true;
+                boolean bigEndian = true;
+                AudioFormat format = new AudioFormat(sampleRate, sampleSizeInBits,
+                        channels, signed, bigEndian);
+                return format;
+            }
+
+            //Captures the sound and record into a WAV file
+            void start() {
+                try {
+                    AudioFormat format = getAudioFormat();
+                    DataLine.Info info = new DataLine.Info(TargetDataLine.class, format);
+
+                    // checks if system supports the data line
+                    if (!AudioSystem.isLineSupported(info)) {
+                        System.out.println("Line not supported");
+                        System.exit(0);
+                    }
+                    line = (TargetDataLine) AudioSystem.getLine(info);
+                    line.open(format);
+                    line.start();   // start capturing
+
+                    System.out.println("Start capturing...");
+
+                    AudioInputStream ais = new AudioInputStream(line);
+
+                    System.out.println("Start recording...");
+
+                    // start recording
+                    AudioSystem.write(ais, fileType, wavFile);
+
+                } catch (LineUnavailableException ex) {
+                    ex.printStackTrace();
+                } catch (IOException ioe) {
+                    ioe.printStackTrace();
+                }
+            }
+
+            // Closes the target data line to finish capturing and recording
+            void finish() {
+                //line.stop();
+                //line.close();
+                System.out.println("Finished");
+            }
+
+            //Entry to run the program
+
+            public static void main(String[] args) {
+                final JavaSoundRecorder recorder = new JavaSoundRecorder();
+
+                // creates a new thread that waits for a specified
+                // of time before stopping
+                Thread stopper = new Thread(new Runnable() {
+                    public void run() {
+                        try {
+                            Thread.sleep(RECORD_TIME);
+                        } catch (InterruptedException ex) {
+                            ex.printStackTrace();
+                        }
+                        recorder.finish();
+                    }
+                });
+
+                stopper.start();
+
+                // start recording
+                recorder.start();
+            }
+        }
+        */
 
         BorderPane border = new BorderPane();
         border.setTop(hbox);
@@ -298,19 +356,17 @@ public class HelloApplication extends Application {
 
         ChoiceBox levelselect = new ChoiceBox();
         levelselect.setPrefSize(200, 40);
-        levelselect.getItems().addAll(levelselection.values());
-        levelselect.setValue(levelselection.values()[0]);
+        levelselect.getItems().addAll("Level 1", "Level 2", "Level 3");
+        levelselect.setValue("Level 1");
         ChoiceBox rangeselect = new ChoiceBox();
         rangeselect.setPrefSize(200, 40);
-        rangeselect.getItems().addAll(voiceselection.values());
-        rangeselect.setValue(voiceselection.values()[0]);
+        rangeselect.getItems().addAll("Bajo", "Contralto", "Tenor");
+        rangeselect.setValue("Bajo");
         Button buttonstart = new Button("START");
 
         EventHandler<ActionEvent> event = new EventHandler<ActionEvent>() {
             public void handle(ActionEvent e)
             {
-                ls = (levelselection)levelselect.getValue();
-                vs = (voiceselection)rangeselect.getValue();
                 secondscene(stage);
             }
         };
