@@ -28,10 +28,26 @@ import javax.sound.sampled.*;
 import javax.swing.*;
 
 
+import java.io.File;
 import java.io.IOException;
 import java.util.LinkedList;
 
+enum LevelSelector {
+    LEVEL1,
+    LEVEL2,
+    LEVEL3
+}
+
+enum RangeSelector {
+    BAJO,
+    CONTRALTO,
+    TENOR
+}
+
 public class HelloApplication extends Application {
+    LevelSelector ls;
+    RangeSelector rs;
+
     private void lastscene(Stage stage){
         BorderPane gridborder = new BorderPane();
         GridPane gridPane = new GridPane();
@@ -113,9 +129,11 @@ public class HelloApplication extends Application {
         title.setTextAlignment(TextAlignment.CENTER);
         HBox hbox = addHBox();
 
-        //Imagen (cambiar esta linea)
-        //ImageView imageView = new ImageView("C:\\Github projects\\P41_TTM\\imagenes\\fotos_intervals\\mezzo_soprano\\5-1.png");
-        ImageView imageView = new ImageView();
+        //Imagen
+        String nombreFichero = "imagenes\\\\fotos_intervals\\\\mezzo_soprano\\\\5-1.png";
+        String rutaAbsoluta = new File(nombreFichero).getAbsolutePath();
+        System.out.println(rutaAbsoluta);
+        ImageView imageView = new ImageView(rutaAbsoluta);
 
         Button buttonsing = new Button("SING");
         EventHandler<ActionEvent> event1 = new EventHandler<ActionEvent>() {
@@ -356,18 +374,20 @@ public class HelloApplication extends Application {
 
         ChoiceBox levelselect = new ChoiceBox();
         levelselect.setPrefSize(200, 40);
-        levelselect.getItems().addAll("Level 1", "Level 2", "Level 3");
-        levelselect.setValue("Level 1");
+        levelselect.getItems().addAll(LevelSelector.values());
+        levelselect.setValue(LevelSelector.values()[0]);
         ChoiceBox rangeselect = new ChoiceBox();
         rangeselect.setPrefSize(200, 40);
-        rangeselect.getItems().addAll("Bajo", "Contralto", "Tenor");
-        rangeselect.setValue("Bajo");
+        rangeselect.getItems().addAll(RangeSelector.values());
+        rangeselect.setValue(RangeSelector.values()[0]);
         Button buttonstart = new Button("START");
 
         EventHandler<ActionEvent> event = new EventHandler<ActionEvent>() {
             public void handle(ActionEvent e)
             {
                 secondscene(stage);
+                rs = (RangeSelector) rangeselect.getValue();
+                ls = (LevelSelector) levelselect.getValue();
             }
         };
 
