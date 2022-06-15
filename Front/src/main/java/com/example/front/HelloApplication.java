@@ -40,9 +40,13 @@ enum LevelSelector {
 }
 
 enum RangeSelector {
-    BAJO,
-    CONTRALTO,
+    ALTO,
+    BARITONO,
+    BASS,
+    MEZZO_SOPRANO,
+    SOPRANO,
     TENOR
+
 }
 
 public class HelloApplication extends Application {
