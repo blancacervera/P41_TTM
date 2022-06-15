@@ -40,13 +40,12 @@ enum LevelSelector {
 }
 
 enum RangeSelector {
-    ALTO,
-    BARITONO,
-    BASS,
-    MEZZO_SOPRANO,
     SOPRANO,
-    TENOR
-
+    MEZZO_SOPRANO,
+    ALTO,
+    TENOR,
+    BARITONO,
+    BASS
 }
 
 public class HelloApplication extends Application {
@@ -354,7 +353,8 @@ public class HelloApplication extends Application {
                 Alert helpalert = new Alert(Alert.AlertType.INFORMATION);
                 helpalert.setTitle("INFORMATION");
                 helpalert.setHeaderText("\t\tSOFTWARE DOCUMENTATION");
-                helpalert.setContentText("1.First Steps");
+                helpalert.setContentText("1. First you need to decide the level and your voice range, if you need your voice range you can enter in this link: \nURL\n" +
+                        "2. Next you need to select a valid micro for singing\n3. We will give you an image with a reference note. You have 10 seconds to sing.");
                 helpalert.showAndWait();
             }
         };
@@ -382,9 +382,10 @@ public class HelloApplication extends Application {
         GridPane gridPane = new GridPane();
         HBox hboxdesc = new HBox();
         StackPane stack = new StackPane();
-        Text description = new Text("Description");
+        Text description = new Text("Welcome to Music Tune Education, here you will practice your intonation skills.\n Choose level and your voice range:");
         description.setTextAlignment(TextAlignment.CENTER);
-        hboxdesc.setMargin(description, new Insets(20, 0, 0, 200));
+        description.setFont(Font.font("Arial", 18));
+        hboxdesc.setMargin(description, new Insets(50, 0, 0, 150));
         hboxdesc.getChildren().add(description);
         gridborder.setTop(hboxdesc);
 
@@ -414,9 +415,9 @@ public class HelloApplication extends Application {
         buttonstart.setOnAction(event);
         buttonstart.setPrefSize(200, 40);
 
-        GridPane.setMargin(levelselect, new Insets(180, 0, 0, 80));
-        GridPane.setMargin(rangeselect, new Insets(180, 0, 0, 40));
-        GridPane.setMargin(buttonstart, new Insets(180, 0, 0, 150));
+        GridPane.setMargin(levelselect, new Insets(140, 0, 0, 80));
+        GridPane.setMargin(rangeselect, new Insets(140, 0, 0, 40));
+        GridPane.setMargin(buttonstart, new Insets(140, 0, 0, 150));
 
         gridPane.add(levelselect, 1, 1);
         gridPane.add(rangeselect, 2,1);
