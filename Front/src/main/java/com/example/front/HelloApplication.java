@@ -154,7 +154,6 @@ public class HelloApplication extends Application {
             if(mediaPlayer.getStatus() != MediaPlayer.Status.PLAYING){
                 mediaPlayer.play();
             }
-
         });
 
 
@@ -264,9 +263,72 @@ public class HelloApplication extends Application {
 
     private void secondscene(Stage stage) throws IOException {
         //Crear aqui segunda escena
-        BorderPane border = new BorderPane();
-        Button testbutton = new Button("TEST");
+        AnchorPane pane = new AnchorPane();
+        pane.setPrefSize(960, 568);
+        //Creating all the nodes.
         Circle testcircle = new Circle(50, Color.WHITE);
+        testcircle.setLayoutX(482);
+        testcircle.setLayoutY(280);
+        testcircle.setRadius(46);
+        pane.getChildren().add(testcircle);
+
+        Button nextbutton = new Button("NEXT");
+        nextbutton.setPrefSize(150, 50);
+        nextbutton.setLayoutX(406);
+        nextbutton.setLayoutY(387);
+        nextbutton.setStyle("-fx-background-color: #336699;");
+        nextbutton.setDisable(true); //by default
+        pane.getChildren().add(nextbutton);
+
+        Rectangle textField = new Rectangle();
+        textField.setLayoutX(262);
+        textField.setLayoutY(127);
+        textField.setWidth(440);
+        textField.setHeight(89);
+        textField.setArcHeight(50);
+        textField.setArcWidth(50);
+        textField.setFill(Color.web("#336699"));
+        textField.setSmooth(true);
+        textField.setOpacity(0.6);
+        pane.getChildren().add(textField);
+
+        Label description = new Label("Select an able Microphone.");
+        Label description2 = new Label("A green circle means the microphone selected works correctly.");
+        Label description3 = new Label("A red circle means the microphone selected is not working correctly. ");
+        Label description4 = new Label("Green circle enables the NEXT button.");
+        description.setFont(Font.font("System", 14));
+        description2.setFont(Font.font("System", 14));
+        description3.setFont(Font.font("System", 14));
+        description4.setFont(Font.font("System", 14));
+        description.setTextFill(Color.WHITE);
+        description2.setTextFill(Color.WHITE);
+        description3.setTextFill(Color.WHITE);
+        description4.setTextFill(Color.WHITE);
+        description.setAlignment(Pos.CENTER);
+        description2.setAlignment(Pos.CENTER);
+        description3.setAlignment(Pos.CENTER);
+        description4.setAlignment(Pos.CENTER);
+        description.setLayoutX(395);
+        description.setLayoutY(130);
+        description2.setLayoutX(298);
+        description2.setLayoutY(150);
+        description3.setLayoutX(273);
+        description3.setLayoutY(170);
+        description4.setLayoutX(364);
+        description4.setLayoutY(190);
+        pane.getChildren().addAll(description, description2, description3, description4);
+
+        ChoiceBox deviceSelection = new ChoiceBox();
+        deviceSelection.setPrefSize(200, 40);
+        deviceSelection.setLayoutX(382);
+        deviceSelection.setLayoutY(341);
+        pane.getChildren().add(deviceSelection);
+
+        HBox hbox = addHBox();
+        hbox.setAlignment(Pos.TOP_LEFT);
+        hbox.setPrefWidth(960);
+        pane.getChildren().add(hbox);
+
         Mixer.Info[] infos = AudioSystem.getMixerInfo(); //tenemos instancias de los dispositivos de audio instalados en el pc.
         LinkedList<Mixer.Info> infos_2 = new LinkedList<>();
         for(Mixer.Info info: infos) {
@@ -274,35 +336,22 @@ public class HelloApplication extends Application {
                 infos_2.add(info);
             }
         }
-
-        ChoiceBox deviceSelection = new ChoiceBox();
-        deviceSelection.setPrefSize(200, 40);
         deviceSelection.getItems().addAll(infos_2);
         deviceSelection.setValue(infos_2.getFirst()); //by default the first MIDI device.
-        border.setCenter(deviceSelection);
-        //testcircle.setCenterX(674);
-        //testcircle.setCenterY(267);
-        testbutton.setLayoutX(416);
-        testbutton.setLayoutY(300);
-        border.setBottom(testbutton);
-        border.setRight(testcircle);
 
         deviceSelection.setOnAction((event) -> {
             int selectedIndex = deviceSelection.getSelectionModel().getSelectedIndex();
-            Object selectedItem = deviceSelection.getSelectionModel().getSelectedItem();
-
-            System.out.println("Selection made: [" + selectedIndex + "] " + selectedItem);
-            System.out.println("   ChoiceBox.getValue(): " + deviceSelection.getValue());
-
             try {
                 TargetDataLine mic = AudioSystem.getTargetDataLine(new
                         AudioFormat(44100, 16, 1, true, true), infos_2.get(selectedIndex));
                 System.out.println("Device works correctly!!!!");
                 testcircle.setFill(Color.rgb(85, 255 , 0));
                 this.testOk = true;
+                nextbutton.setDisable(false);
             }catch(Exception e){
                 testcircle.setFill(Color.RED);
                 this.testOk = false;
+                nextbutton.setDisable(true);
                 System.out.println(e);
             }
         });
@@ -316,10 +365,10 @@ public class HelloApplication extends Application {
             }
         };
 
-        testbutton.setOnAction(event);
-        testbutton.setPrefSize(200, 40);
-        Scene scene = new Scene(border, 960, 540);
+        nextbutton.setOnAction(event);
+        Scene scene = new Scene(pane, 960, 540);
         stage.setScene(scene);
+        stage.setResizable(false);
         stage.show();
     }
 
