@@ -33,6 +33,9 @@ import java.io.File;
 import java.io.IOException;
 import java.util.LinkedList;
 
+import static java.lang.Thread.sleep;
+
+
 enum LevelSelector {
     LEVEL1,
     LEVEL2,
@@ -51,6 +54,12 @@ enum RangeSelector {
 public class HelloApplication extends Application {
     LevelSelector ls;
     RangeSelector rs;
+
+    AudioFormat format = new AudioFormat(44100, 16, 1, true, true);
+
+    TargetDataLine targetDataLine;
+
+    private boolean grabar = false;
     private boolean testOk = false;
 
     private void lastscene(Stage stage){
@@ -125,7 +134,20 @@ public class HelloApplication extends Application {
         stage.show();
     }
 
-
+    class Audio extends Thread {
+        byte[] temp = new byte[targetDataLine.getBufferSize() / 1000];
+        AudioFileFormat.Type tipo = AudioFileFormat.Type.WAVE;
+        File archivo = new File("grabacion.wav");
+        public void run() {
+            try {
+                targetDataLine.open(format);
+                targetDataLine.start();
+                AudioSystem.write(new AudioInputStream(targetDataLine), tipo, archivo);
+            } catch (Exception e){
+                System.out.println(e);
+            }
+        }
+    }
     private void thirdscene(Stage stage){
         //Crear aqui segunda escena
         StackPane stack = new StackPane();
@@ -148,13 +170,28 @@ public class HelloApplication extends Application {
             }
         };
         buttonsing.setOnAction(event1);
-        Media buzzer = new Media(getClass().getResource("/LAmetronome.wav").toExternalForm());
+        Media buzzer = new Media(getClass().getResource("/LAmet.wav").toExternalForm());
         MediaPlayer mediaPlayer = new MediaPlayer(buzzer);
         buttonsing.setOnAction(event -> {
             if(mediaPlayer.getStatus() != MediaPlayer.Status.PLAYING){
-                mediaPlayer.play();
+                DataLine.Info targetInfo = new DataLine.Info(TargetDataLine.class, format);
+                try {
+                    targetDataLine = (TargetDataLine) AudioSystem.getLine(targetInfo);
+                    Thread audio = new Audio();
+                    audio.start();
+                    mediaPlayer.play();
+                    sleep(14000);
+                    targetDataLine.stop();
+                    targetDataLine.close();
+                    targetDataLine.flush();
+                    lastscene(stage);
+                } catch(Exception e) {
+                    System.out.println(e);
+                }
             }
         });
+
+
 
 
         buttonsing.setPrefSize(200, 40);
@@ -164,94 +201,7 @@ public class HelloApplication extends Application {
         gridPane.setMargin(buttonsing, new Insets(80, 0, 0, 100));
         gridPane.add(buttonsing, 2, 1);
 
-        /*class JavaSoundRecorder {
-            // record duration, in milliseconds
-            static final long RECORD_TIME = 16000;  // 16 seconds
 
-            // path of the wav file
-            File wavFile = new File("E:/Test/RecordAudio.wav");
-
-            // format of audio file
-            AudioFileFormat.Type fileType = AudioFileFormat.Type.WAVE;
-
-            // the line from which audio data is captured
-            TargetDataLine line;
-
-            // Defines an audio format
-            AudioFormat getAudioFormat() {
-                float sampleRate = 16000;
-                int sampleSizeInBits = 8;
-                int channels = 2;
-                boolean signed = true;
-                boolean bigEndian = true;
-                AudioFormat format = new AudioFormat(sampleRate, sampleSizeInBits,
-                        channels, signed, bigEndian);
-                return format;
-            }
-
-            //Captures the sound and record into a WAV file
-            void start() {
-                try {
-                    AudioFormat format = getAudioFormat();
-                    DataLine.Info info = new DataLine.Info(TargetDataLine.class, format);
-
-                    // checks if system supports the data line
-                    if (!AudioSystem.isLineSupported(info)) {
-                        System.out.println("Line not supported");
-                        System.exit(0);
-                    }
-                    line = (TargetDataLine) AudioSystem.getLine(info);
-                    line.open(format);
-                    line.start();   // start capturing
-
-                    System.out.println("Start capturing...");
-
-                    AudioInputStream ais = new AudioInputStream(line);
-
-                    System.out.println("Start recording...");
-
-                    // start recording
-                    AudioSystem.write(ais, fileType, wavFile);
-
-                } catch (LineUnavailableException ex) {
-                    ex.printStackTrace();
-                } catch (IOException ioe) {
-                    ioe.printStackTrace();
-                }
-            }
-
-            // Closes the target data line to finish capturing and recording
-            void finish() {
-                //line.stop();
-                //line.close();
-                System.out.println("Finished");
-            }
-
-            //Entry to run the program
-
-            public static void main(String[] args) {
-                final JavaSoundRecorder recorder = new JavaSoundRecorder();
-
-                // creates a new thread that waits for a specified
-                // of time before stopping
-                Thread stopper = new Thread(new Runnable() {
-                    public void run() {
-                        try {
-                            Thread.sleep(RECORD_TIME);
-                        } catch (InterruptedException ex) {
-                            ex.printStackTrace();
-                        }
-                        recorder.finish();
-                    }
-                });
-
-                stopper.start();
-
-                // start recording
-                recorder.start();
-            }
-        }
-        */
 
         BorderPane border = new BorderPane();
         border.setTop(hbox);
