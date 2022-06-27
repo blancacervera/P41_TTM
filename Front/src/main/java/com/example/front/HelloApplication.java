@@ -157,7 +157,7 @@ public class HelloApplication extends Application {
         HBox hbox = addHBox();
 
         //Imagen
-        String nombreFichero = "imagenes\\\\fotos_intervals\\\\mezzo_soprano\\\\5-1.png";
+        String nombreFichero = "imagenes\\\\fotos_intervals\\\\soprano\\\\d5-1.png";
         String rutaAbsoluta = new File(nombreFichero).getAbsolutePath();
         System.out.println(rutaAbsoluta);
         ImageView imageView = new ImageView(rutaAbsoluta);
