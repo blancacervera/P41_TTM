@@ -37,9 +37,9 @@ import static java.lang.Thread.sleep;
 
 
 enum LevelSelector {
-    LEVEL1,
-    LEVEL2,
-    LEVEL3
+    EASY,
+    NORMAL,
+    HARD
 }
 
 enum RangeSelector {
@@ -50,6 +50,15 @@ enum RangeSelector {
     BARITONO,
     BASS
 }
+
+/*enum ResultsSelector{
+    PERFECT,
+    WELL DONE,
+    OKEY,
+    TRY HARDER,
+    MAYBE NEXT TIME,
+    NOT GOOD
+}*/
 
 public class HelloApplication extends Application {
     LevelSelector ls;
@@ -74,13 +83,14 @@ public class HelloApplication extends Application {
         hboxdesc.getChildren().add(description);
         gridborder.setTop(hboxdesc);
 
-        Label notalbl = new Label("X / 10");
-        notalbl.setFont(Font.font("Arial", FontWeight.BOLD, 24));
-        Label namelbl = new Label("Name: ");
-        TextField nametxt = new TextField();
-        nametxt.setPrefSize(400, 40);
-        Button buttonsave = new Button("SAVE");
-        buttonsave.setPrefSize(200, 40);
+        Label notalbl = new Label("SING EVALUATION: ");
+        notalbl.setFont(Font.font("Arial", FontWeight.BOLD, 32));
+        String nota = null;
+        if(ls == LevelSelector.EASY) nota = "WELL DONE";
+        if(ls == LevelSelector.NORMAL) nota = "OKEY";
+        if(ls == LevelSelector.HARD) nota = "MAYBE NEXT TIME";
+        Label notalbl2 = new Label(nota);
+        notalbl2.setFont(Font.font("Arial", FontWeight.BOLD, 32));
 
         Button buttonhome = new Button("HOME");
         buttonhome.setPrefSize(200, 40);
@@ -112,18 +122,14 @@ public class HelloApplication extends Application {
         };
         buttonexit.setOnAction(exitevent);
 
-        GridPane.setMargin(notalbl, new Insets(20, 0, 0, 150));
-        GridPane.setMargin(namelbl, new Insets(150, 0, 0, 80));
-        GridPane.setMargin(nametxt, new Insets(150, 0, 0, -100));
-        GridPane.setMargin(buttonsave, new Insets(150, 0, 0, 80));
-        GridPane.setMargin(buttonhome, new Insets(70, 0, 0, 110));
-        GridPane.setMargin(buttonretry, new Insets(70, 0, 0, 80));
-        GridPane.setMargin(buttonexit, new Insets(70, 0, 0, 60));
+        GridPane.setMargin(notalbl, new Insets(20, 0, 0, -100));
+        GridPane.setMargin(notalbl2, new Insets(20, 0, 0, -60));
+        GridPane.setMargin(buttonhome, new Insets(200, 0, 0, 110));
+        GridPane.setMargin(buttonretry, new Insets(200, 0, 0, 80));
+        GridPane.setMargin(buttonexit, new Insets(200, 0, 0, 70));
 
         gridPane.add(notalbl, 2, 1);
-        gridPane.add(namelbl, 1, 2);
-        gridPane.add(nametxt, 2, 2);
-        gridPane.add(buttonsave, 3, 2);
+        gridPane.add(notalbl2, 3, 1);
         gridPane.add(buttonhome, 1, 3);
         gridPane.add(buttonretry, 2,3);
         gridPane.add(buttonexit, 3, 3);
@@ -157,7 +163,10 @@ public class HelloApplication extends Application {
         HBox hbox = addHBox();
 
         //Imagen
-        String nombreFichero = "imagenes\\\\fotos_intervals\\\\soprano\\\\d5-1.png";
+        String nombreFichero = null;
+        if(ls == LevelSelector.EASY) nombreFichero = "imagenes\\\\fotos_intervals\\\\soprano\\\\e4001-1.png";
+        if(ls == LevelSelector.NORMAL) nombreFichero = "imagenes\\\\fotos_intervals\\\\soprano\\\\m8000-1.png";
+        if(ls == LevelSelector.HARD) nombreFichero = "imagenes\\\\fotos_intervals\\\\soprano\\\\d11010-1.png";
         String rutaAbsoluta = new File(nombreFichero).getAbsolutePath();
         System.out.println(rutaAbsoluta);
         ImageView imageView = new ImageView(rutaAbsoluta);
@@ -180,7 +189,7 @@ public class HelloApplication extends Application {
                     Thread audio = new Audio();
                     audio.start();
                     mediaPlayer.play();
-                    sleep(14000);
+                    sleep(15000);
                     targetDataLine.stop();
                     targetDataLine.close();
                     targetDataLine.flush();
@@ -192,16 +201,12 @@ public class HelloApplication extends Application {
         });
 
 
-
-
         buttonsing.setPrefSize(200, 40);
         GridPane gridPane = new GridPane();
         gridPane.setMargin(imageView, new Insets(150, 0, 0, 150));
         gridPane.add(imageView, 1, 1);
-        gridPane.setMargin(buttonsing, new Insets(80, 0, 0, 100));
+        gridPane.setMargin(buttonsing, new Insets(140, 0, 0, 100));
         gridPane.add(buttonsing, 2, 1);
-
-
 
         BorderPane border = new BorderPane();
         border.setTop(hbox);
