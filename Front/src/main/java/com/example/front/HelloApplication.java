@@ -200,13 +200,17 @@ public class HelloApplication extends Application {
             }
         });
 
+        Label textlbl = new Label("Press SING to start recording. Sing the notes from the following interval: ");
+        textlbl.setFont(Font.font("Arial", FontWeight.BOLD, 16));
 
         buttonsing.setPrefSize(200, 40);
         GridPane gridPane = new GridPane();
-        gridPane.setMargin(imageView, new Insets(150, 0, 0, 150));
-        gridPane.add(imageView, 1, 1);
-        gridPane.setMargin(buttonsing, new Insets(140, 0, 0, 100));
-        gridPane.add(buttonsing, 2, 1);
+        gridPane.setMargin(textlbl, new Insets(150, 0, 0, 200));
+        gridPane.add(textlbl, 1, 1);
+        gridPane.setMargin(imageView, new Insets(50, 0, 0, 150));
+        gridPane.add(imageView, 1, 2);
+        gridPane.setMargin(buttonsing, new Insets(50, 0, 0, -80));
+        gridPane.add(buttonsing, 2, 2);
 
         BorderPane border = new BorderPane();
         border.setTop(hbox);
