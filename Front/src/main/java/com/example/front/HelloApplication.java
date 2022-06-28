@@ -357,7 +357,7 @@ public class HelloApplication extends Application {
                 Alert helpalert = new Alert(Alert.AlertType.INFORMATION);
                 helpalert.setTitle("INFORMATION");
                 helpalert.setHeaderText("\t\tSOFTWARE DOCUMENTATION");
-                helpalert.setContentText("1. First you need to decide the level and your voice range, if you need your voice range you can enter in this link: \nURL\n" +
+                helpalert.setContentText("1. First you need to decide the level and your voice range, if you need your voice range you can enter in this link: \nhttps://www.omnicalculator.com/other/vocal-range\n" +
                         "2. Next you need to select a valid micro for singing\n3. We will give you an image with a reference note. You have 10 seconds to sing.");
                 helpalert.showAndWait();
             }
