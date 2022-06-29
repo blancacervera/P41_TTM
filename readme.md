@@ -26,4 +26,4 @@ After 15 seconds, the recording stops and a new window rates with a phrase how i
 ![WhatsApp Image 2022-06-28 at 9 02 28 PM](https://user-images.githubusercontent.com/72511506/176493360-2598f5cc-65ef-4235-8b02-d02145cbb8f3.jpeg)
 
 ## How it rates
-
+The intonation rating is defined with a Pitch Algorithm in which the mentioned algorithm compares the note sang with the one shown in the music sheet so that, if it coincides or it is quite near the image note, the application will evaluate you with a "Well Done" message, as stated before. If the note sang does not have anything to do with the one on the sheet, it pops up a page with the message "Maybe Next Time".
