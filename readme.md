@@ -17,7 +17,13 @@ Here you can see the next screen that appears when user press the previous `STAR
 
 As you can see in the previous figures, if the software can not obtain the resources of this device, the software will print out a red circle and will not let the user continue to the next screen. On the other side, if the device selected works correctly, the software will print out a green cercle and will let the user go ahead with his or her exercise.
 
-Next, there is the screen when the user entonates the interval of the image. This image differs taking into account what level and voice range have choose the user. When it press sing it sounds a reference note A and a metronome, the recording of the voice starts too.
+Next, there is the screen when the user entonates the interval of the image. This image differs taking into account what voice range have choose the user. When it presses the sing button, it sounds a reference note A and a metronome, the recording of the voice starts too.
+
 ![WhatsApp Image 2022-06-28 at 9 48 38 PM](https://user-images.githubusercontent.com/72511506/176489348-e3faf004-3a3a-4bd9-91f4-24051894e2f5.jpeg)
 
+After 15 seconds, the recording stops and a new window rates with a phrase how it was the performance of the user being "WELL DONE" the best rate, and "MAYBE NEXT TIME" the worst rate. The user can also retry with the same settings, go to the home page, or exit the application.
+
+![WhatsApp Image 2022-06-28 at 9 02 28 PM](https://user-images.githubusercontent.com/72511506/176493360-2598f5cc-65ef-4235-8b02-d02145cbb8f3.jpeg)
+
+## How it rates
 
