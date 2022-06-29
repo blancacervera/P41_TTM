@@ -17,4 +17,7 @@ Here you can see the next screen that appears when user press the previous `STAR
 
 As you can see in the previous figures, if the software can not obtain the resources of this device, the software will print out a red circle and will not let the user continue to the next screen. On the other side, if the device selected works correctly, the software will print out a green cercle and will let the user go ahead with his or her exercise.
 
+Next, there is the screen when the user entonates the interval of the image. This image differs taking into account what level and voice range have choose the user. When it press sing it sounds a reference note A and a metronome, the recording of the voice starts too.
+![WhatsApp Image 2022-06-28 at 9 48 38 PM](https://user-images.githubusercontent.com/72511506/176489348-e3faf004-3a3a-4bd9-91f4-24051894e2f5.jpeg)
+
 
